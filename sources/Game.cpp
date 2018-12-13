@@ -72,6 +72,7 @@ void	Game::gameCycle(){
 	int i = 0;
 
 	showMap();
+	objPool[0]->showObj(wMap, wScore);//do while
 	while (userController()){
 		objPool[0]->move(map, wMap, wScore);
 		showTheGame();
@@ -90,16 +91,10 @@ bool Game::userController(){
 }
 
 void	Game::showTheGame(){
-	// size_t x = 1;
-	// size_t y = 0;
-	objPool[0]->showObj(wMap, wScore);
-	
-	// box(wMap, 0, 0);
-	//box(wScore, 0, 0);
+
+	box(wScore, 0, 0);
 	wrefresh(wMap);
 	wrefresh(wScore);
-	//refresh();
-	//usleep(1000);
 }
 void	Game::showMap() const{
 	for (size_t i = 0; i < MAP_HEIGHT; i++){	
