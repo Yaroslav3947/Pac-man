@@ -32,8 +32,8 @@ void	Game::initView(){
 	noecho();
 	timeout(0);
 	curs_set(0);
-	wMap = newwin(MAP_HEIGHT + 2, MAP_WIDTH + 2, 1, 1);
-	wScore = newwin(4, MAP_WIDTH + 2, MAP_HEIGHT + 5, 1);
+	wMap = newwin(MAP_HEIGHT + 2, MAP_WIDTH + 3, 1, 1);
+	wScore = newwin(4, MAP_WIDTH + 3, MAP_HEIGHT + 5, 1);
 	box(wScore, 0, 0);
 	wrefresh(wMap);
 	wrefresh(wScore);
