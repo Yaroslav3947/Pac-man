@@ -1,7 +1,6 @@
 #ifndef PACMAN_HPP
 #define PACMAN_HPP
 
-#include "General.hpp"
 #include "AGameObj.hpp"
 
 class Pacman : public AGameObj{
@@ -17,6 +16,8 @@ class Pacman : public AGameObj{
 		void	setLives(size_t const & lives);	
 		void	setScore(size_t const & score);	
 		void	showObj(WINDOW *wMap, WINDOW *wScore) const;
+		void	specialMoving(vector<vPair> &map);
+
 	private:
 		size_t _lives;
 		size_t _score;

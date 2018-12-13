@@ -2,7 +2,6 @@
 #define AGAMEOBJ_HPP
 
 #include "General.hpp"
-
 class AGameObj {
 
 	public:
@@ -13,10 +12,10 @@ class AGameObj {
 		virtual ~AGameObj() = 0;
 		virtual void	showObj(WINDOW *wMap, WINDOW *wScore) const = 0;
 		void			showShape(WINDOW *wMap) const;
-		void			move(vector<vPair> &map);
+		void			move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore);
 		virtual void	specialMoving(vector<vPair> &map) = 0;
-		// virtual void	moveByDirection(); //P: only when getch + need to check character end update data. | E: always + need to check character
 		bool			coordOnTheBorder(vector <vPair> &map, size_t x, size_t y) const;
+		bool			coordTheSame(size_t x, size_t y) const;
 		size_t	&getX();
 		size_t	&getY();
 		int		&getDirection();
@@ -31,4 +30,3 @@ class AGameObj {
 	
 };
 #endif
-// setlocale(LC_ALL, "")

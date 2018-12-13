@@ -1,9 +1,7 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include "General.hpp"
 #include "Pacman.hpp"
-
 class Game{
 	public:
 		Game();
@@ -16,9 +14,11 @@ class Game{
 		void	gameCycle();
 		bool	userController();
 		void	showTheGame();
-	protected:
+		void	showMap() const;
 		WINDOW	*wMap;
 		WINDOW	*wScore;
+
+	protected:
 		vector<AGameObj *> objPool;
 		vector<vPair> map;
 };

@@ -57,9 +57,9 @@ void	Game::initMap(){
 		map[i].reserve(MAP_WIDTH);
 		for (int j = 0; j < MAP_WIDTH; j++){
 			if (i == 0 || j == 0 || j == 1 || i == MAP_HEIGHT - 1 || j == MAP_WIDTH - 1 || j == MAP_WIDTH - 2)
-				map[i][j] = make_pair(' ', COLOR_BORDER);
+				map[i][j] = make_pair(L' ', COLOR_BORDER);
 			else
-				map[i][j] = make_pair('o', COLOR_ROAD);
+			map[i][j] =	j % 2 == 1 ? make_pair(L'.', COLOR_ROAD) : make_pair(L' ', COLOR_ROAD);
 		}
 	}
 
@@ -70,8 +70,10 @@ void	Game::initObjPool(){
 void	Game::gameCycle(){
 
 	int i = 0;
+
+	showMap();
 	while (userController()){
-		objPool[0]->move(map);
+		objPool[0]->move(map, wMap, wScore);
 		showTheGame();
 		mvwprintw(wScore, 1, 25, "direct = %c i = %d", objPool[0]->getDirection(), i);
 		usleep(393339);
@@ -90,20 +92,21 @@ bool Game::userController(){
 void	Game::showTheGame(){
 	// size_t x = 1;
 	// size_t y = 0;
-
-	for (size_t i = 0; i < MAP_HEIGHT; i++){	
-		for (size_t j = 0; j < MAP_WIDTH; j++){
-			wattron(wMap, COLOR_PAIR(map[i][j].second));
-				mvwprintw(wMap, i, j, "%c", map[i][j].first);
-			wattroff(wMap, COLOR_PAIR(map[i][j].second));
-		}
-	}
 	objPool[0]->showObj(wMap, wScore);
 	
 	// box(wMap, 0, 0);
-	box(wScore, 0, 0);
+	//box(wScore, 0, 0);
 	wrefresh(wMap);
 	wrefresh(wScore);
 	//refresh();
 	//usleep(1000);
+}
+void	Game::showMap() const{
+	for (size_t i = 0; i < MAP_HEIGHT; i++){	
+		for (size_t j = 0; j < MAP_WIDTH; j++){
+			wattron(wMap, COLOR_PAIR(map[i][j].second));
+				mvwprintw(wMap, i, j, "%C", map[i][j].first);
+			wattroff(wMap, COLOR_PAIR(map[i][j].second));
+		}
+	}
 }
