@@ -12,8 +12,8 @@ class AGameObj {
 		virtual ~AGameObj() = 0;
 		virtual void	showObj(WINDOW *wMap, WINDOW *wScore) const = 0;
 		void			showShape(WINDOW *wMap) const;
-		void			move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore);
-		virtual void	specialMoving(vector<vPair> &map) = 0;
+		void			move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, vector<AGameObj *> objPool);
+		virtual void	specialMoving(vector<vPair> &map, vector<AGameObj *> objPool) = 0;
 		bool			coordOnTheBorder(vector <vPair> &map, size_t x, size_t y) const;
 		bool			coordTheSame(size_t x, size_t y) const;
 		size_t	&getX();

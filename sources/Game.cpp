@@ -30,10 +30,11 @@ void	Game::initView(){
 	initscr();
 	start_color();
 	noecho();
+	cbreak();
 	timeout(0);
 	curs_set(0);
-	wMap = newwin(MAP_HEIGHT + 2, MAP_WIDTH + 3, 1, 1);
-	wScore = newwin(4, MAP_WIDTH + 3, MAP_HEIGHT + 5, 1);
+	wMap = newwin(MAP_HEIGHT + 2, MAP_WIDTH + 4, 1, 1);
+	wScore = newwin(4, MAP_WIDTH + 4, MAP_HEIGHT + 5, 1);
 	box(wScore, 0, 0);
 	wrefresh(wMap);
 	wrefresh(wScore);
@@ -65,18 +66,21 @@ void	Game::initMap(){
 }
 void	Game::initObjPool(){
 	objPool.push_back(new Pacman());
+	objPool.push_back(new Enemy());
 }
 void	Game::gameCycle(){
 
 	int i = 0;
 
 	showMap();
-	objPool[0]->showObj(wMap, wScore);//do while
+	objPool[0]->showObj(wMap, wScore);
+	objPool[1]->showObj(wMap, wScore);//do while
 	while (userController()){
-		objPool[0]->move(map, wMap, wScore);
-		showTheGame();
+		objPool[0]->move(map, wMap, wScore, objPool);
+		objPool[1]->move(map, wMap, wScore, objPool);
 		mvwprintw(wScore, 1, 25, "direct = %c i = %d", objPool[0]->getDirection(), i);
-		usleep(393339);
+		showTheGame();
+		usleep(393330);
 		i++;
 	}
 }

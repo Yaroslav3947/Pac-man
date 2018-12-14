@@ -10,13 +10,15 @@ class Pacman : public AGameObj{
 		Pacman(Pacman const & other);
 		Pacman & operator = (Pacman const & other);
 		~Pacman();
+		bool	isAlive();
+		void	livesReduction();
 		void	scoreImproving();
 		size_t	&getLives();
 		size_t	&getScore();
 		void	setLives(size_t const & lives);	
 		void	setScore(size_t const & score);	
 		void	showObj(WINDOW *wMap, WINDOW *wScore) const;
-		void	specialMoving(vector<vPair> &map);
+		void	specialMoving(vector<vPair> &map, vector<AGameObj *> objPool);
 
 	private:
 		size_t _lives;

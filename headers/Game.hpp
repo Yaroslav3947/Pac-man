@@ -2,6 +2,7 @@
 #define GAME_HPP
 
 #include "Pacman.hpp"
+#include "Enemy.hpp"
 class Game{
 	public:
 		Game();
