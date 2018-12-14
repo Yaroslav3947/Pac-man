@@ -39,9 +39,9 @@ void	AGameObj::move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, vector<AG
 	}
 	if (coordOnTheBorder(map, x, y))
 		return ;
-	mvwprintw(wMap, _y, _x, "%C", map[_y][_x].first);
-	_x = x;
-	_y = y;
+	cleanPrevPosition(wMap, map);
+	setX(x);
+	setY(y);
 	specialMoving(map, objPool);
 	showObj(wMap, wScore);
 
@@ -71,8 +71,12 @@ void	AGameObj::setY(size_t const & y){
 	_y = y;
 }
 void	AGameObj::setDirection(int const & direction){
+	
 	_direction = direction;
 }
 void	AGameObj::showShape(WINDOW *wMap) const{
 	mvwprintw(wMap, _y, _x, "%c", _shape);
+}
+void	AGameObj::cleanPrevPosition(WINDOW *wMap, vector<vPair> & map){
+	mvwprintw(wMap, _y, _x, "%C", map[_y][_x].first);
 }

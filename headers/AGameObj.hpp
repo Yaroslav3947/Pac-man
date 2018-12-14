@@ -15,7 +15,8 @@ class AGameObj {
 		void			move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, vector<AGameObj *> objPool);
 		virtual void	specialMoving(vector<vPair> &map, vector<AGameObj *> objPool) = 0;
 		bool			coordOnTheBorder(vector <vPair> &map, size_t x, size_t y) const;
-		bool			coordTheSame(size_t x, size_t y) const;
+		bool			coordTheSame(size_t x, size_t y) const;//no
+		void			cleanPrevPosition(WINDOW *wMap, vector<vPair> & map);
 		size_t	&getX();
 		size_t	&getY();
 		int		&getDirection();
