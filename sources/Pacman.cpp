@@ -49,6 +49,3 @@ void	Pacman::livesReduction(){
 	if (_lives > 1)
 		_lives--;
 }
-bool	Pacman::isAlive(){
-	return (_lives > 0);
-}

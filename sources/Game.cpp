@@ -63,6 +63,7 @@ void	Game::initMap(){
 		}
 	}
 	map[5][0] = make_pair(L' ', COLOR_ROAD) ;
+	map[1][6] = make_pair(L' ', COLOR_BORDER) ;
 	map[5][1] = make_pair(L'.', COLOR_ROAD) ;
 	map[5][MAP_WIDTH - 1] = make_pair(L'.', COLOR_ROAD) ;
 	map[5][MAP_WIDTH - 2] = make_pair(L' ', COLOR_ROAD) ;

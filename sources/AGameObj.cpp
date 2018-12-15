@@ -42,10 +42,10 @@ void	AGameObj::moveCoord(int & x, int & y){
 void	AGameObj::moveHorizontally(int & x){
 	switch(_direction){
 		case 'a':
-			x-=2;
+			x-=1;
 		break ;
 		case 'd':
-			x+=2;
+			x+=1;
 		break ;
 	}
 }
@@ -98,14 +98,14 @@ void	AGameObj::modifyCoord(){
 	modifyHorizontally();
 }
 void	AGameObj::modifyHorizontally(){
-	if (_x < 1)
-		_x = MAP_WIDTH - 2;
-	else if (_x > MAP_WIDTH - 1)
-		_x = 1;
+	if (_x < 0)
+		_x = MAP_WIDTH - 1;
+	else if (_x >= MAP_WIDTH - 1)
+		_x = 0;
 }
 void	AGameObj::modifyVertically(){
 	if (_y <= 0)
 		_y = MAP_HEIGHT - 1;
-	else if (_y > MAP_HEIGHT - 2)
+	else if (_y >= MAP_HEIGHT - 1)
 		_y = 0;
 }

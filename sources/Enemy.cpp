@@ -22,11 +22,9 @@ void	Enemy::showObj(WINDOW *wMap, WINDOW *wScore) const{
 void	Enemy::specialMoving(vector<vPair> &map, vector<AGameObj *> objPool){
 
 	chooseDirection(map, objPool);
-	(void)map;
-	(void)objPool;
 }
 void	Enemy::chooseDirection(vector<vPair> &map, vector<AGameObj *> objPool){
-	int directions[4][3] = {{'s', 1, 0}, {'d', 0, 2}, {'w', -1, 0}, {'a', 0, -2}};
+	int directions[4][3] = {{'s', 1, 0}, {'d', 0, 1}, {'w', -1, 0}, {'a', 0, -1}};
 	int powDistance = 0;
 	int minPowDistance = pow(MAP_HEIGHT, 2) + pow(MAP_WIDTH, 2);
 	int savedXY[2] = {_y, _x};

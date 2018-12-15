@@ -10,6 +10,7 @@ class AGameObj {
 		AGameObj(AGameObj const & other);
 		AGameObj & operator = (AGameObj const & other);
 		virtual ~AGameObj() = 0;
+		//need?virtual bool	isAlive() = 0;
 		virtual void	showObj(WINDOW *wMap, WINDOW *wScore) const = 0;
 		void			showShape(WINDOW *wMap) const;
 		void			move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, vector<AGameObj *> objPool);

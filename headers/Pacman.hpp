@@ -10,7 +10,6 @@ class Pacman : public AGameObj{
 		Pacman(Pacman const & other);
 		Pacman & operator = (Pacman const & other);
 		~Pacman();
-		bool	isAlive();
 		void	livesReduction();
 		void	scoreImproving();
 		size_t	&getLives();
