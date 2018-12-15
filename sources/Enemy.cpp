@@ -1,5 +1,5 @@
 #include "Enemy.hpp"
-Enemy::Enemy(): AGameObj(17, 5, 'X'){
+Enemy::Enemy(): AGameObj(25, 5, 'X'){
 
 }
 Enemy::Enemy(Enemy const & other) : AGameObj(other){
@@ -25,20 +25,27 @@ void	Enemy::specialMoving(vector<vPair> &map, vector<AGameObj *> objPool){
 	(void)map;
 	(void)objPool;
 }
-
 void	Enemy::chooseDirection(vector<vPair> &map, vector<AGameObj *> objPool){
-	int directions[4][3] = {{'s', 1, 0}, {'d', 0, 2}, {'w', -1, 0}, {'a', 0, -2}, };
+	int directions[4][3] = {{'s', 1, 0}, {'d', 0, 2}, {'w', -1, 0}, {'a', 0, -2}};
 	int powDistance = 0;
 	int minPowDistance = pow(MAP_HEIGHT, 2) + pow(MAP_WIDTH, 2);
-	int x = 0;
-	int y = 0;
+	int savedXY[2] = {_y, _x};
+	int xPowDist = 0;
+	int yPowDist = 0;
 	for (size_t i = 0; i < 4; i++){
-		y = pow((directions[i][1] + _y) - objPool[0]->getY(), 2);
-		x = pow((directions[i][2] + _x) - objPool[0]->getX(), 2);
-		powDistance = abs(y + x);
-		if (powDistance < minPowDistance && coordOnTheBorder(map, _x + directions[i][2], _y + directions[i][1]) == false){
+		_y = savedXY[0] + directions[i][1];
+		_x = savedXY[1] + directions[i][2];
+		modifyCoord();
+		if (coordOnTheBorder(map, _x, _y) == true)
+			continue ;
+		yPowDist = pow(objPool[0]->getY() - abs(_y), 2);
+		xPowDist = pow(objPool[0]->getX() - abs(_x), 2);
+		powDistance = abs(yPowDist + xPowDist);
+		if (powDistance < minPowDistance){
 			minPowDistance = powDistance;
 			_direction = directions[i][0];
 		}
 	}
+	_x = savedXY[1];
+	_y = savedXY[0];
 }

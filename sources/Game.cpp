@@ -62,6 +62,15 @@ void	Game::initMap(){
 			map[i][j] =	j % 2 == 1 ? make_pair(L'.', COLOR_ROAD) : make_pair(L' ', COLOR_ROAD);
 		}
 	}
+	map[5][0] = make_pair(L' ', COLOR_ROAD) ;
+	map[5][1] = make_pair(L'.', COLOR_ROAD) ;
+	map[5][MAP_WIDTH - 1] = make_pair(L'.', COLOR_ROAD) ;
+	map[5][MAP_WIDTH - 2] = make_pair(L' ', COLOR_ROAD) ;
+	map[0][5] = make_pair(L'.', COLOR_ROAD) ;
+	map[1][5] = make_pair(L'.', COLOR_ROAD) ;
+	map[MAP_HEIGHT - 1][5] = make_pair(L'.', COLOR_ROAD) ;
+	map[MAP_HEIGHT - 1][5] = make_pair(L' ', COLOR_ROAD) ;
+
 
 }
 void	Game::initObjPool(){

@@ -20,16 +20,27 @@ AGameObj & AGameObj::operator = (AGameObj const & other){
 }
 AGameObj::~AGameObj(){}
 void	AGameObj::move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, vector<AGameObj *> objPool){
-	size_t y = _y;
-	size_t x = _x;
+	int y = _y;
+	int x = _x;
+	moveCoord(x, y);
+	if (coordOnTheBorder(map, x, y))
+		return ;
+	cleanPosition(wMap, map);
+	setX(x);
+	setY(y);
+	modifyCoord();
+	specialMoving(map, objPool);
+	showObj(wMap, wScore);
 
+}
+void	AGameObj::moveCoord(int & x, int & y){
+	if (_direction == 'a' || _direction == 'd')
+		moveHorizontally(x);
+	else if(_direction == 'w' || _direction == 's')
+		moveVertically(y);
+}
+void	AGameObj::moveHorizontally(int & x){
 	switch(_direction){
-		case 'w':
-			y--;
-		break ;
-		case 's':
-			y++;
-		break ;
 		case 'a':
 			x-=2;
 		break ;
@@ -37,37 +48,39 @@ void	AGameObj::move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, vector<AG
 			x+=2;
 		break ;
 	}
-	if (coordOnTheBorder(map, x, y))
-		return ;
-	cleanPrevPosition(wMap, map);
-	setX(x);
-	setY(y);
-	specialMoving(map, objPool);
-	showObj(wMap, wScore);
-
+}
+void	AGameObj::moveVertically(int & y){
+	switch(_direction){
+		case 'w':
+			y--;
+		break ;
+		case 's':
+			y++;
+		break ;
+	}
 }
 
-bool	AGameObj::coordOnTheBorder(vector <vPair> & map, size_t x, size_t y) const{
-	if (map[y][x].second == COLOR_BORDER || map[y][x + 1].second == COLOR_BORDER)
+bool	AGameObj::coordOnTheBorder(vector <vPair> & map, int x, int y) const{
+	if (map[y][x].second == COLOR_BORDER)
 		return true;
 	return false;
 }
-bool	AGameObj::coordTheSame(size_t x, size_t y) const{
+bool	AGameObj::coordTheSame(int x, int y) const{
 	return (x == _x && y == _y);
 }
-size_t &AGameObj::getX(){
+int &AGameObj::getX(){
 	return _x;
 }
-size_t &AGameObj::getY(){
+int &AGameObj::getY(){
 	return _y;
 }
 int	&AGameObj::getDirection(){
 	return _direction;
 }
-void	AGameObj::setX(size_t const & x){
+void	AGameObj::setX(int const & x){
 	_x = x;
 }
-void	AGameObj::setY(size_t const & y){
+void	AGameObj::setY(int const & y){
 	_y = y;
 }
 void	AGameObj::setDirection(int const & direction){
@@ -77,6 +90,22 @@ void	AGameObj::setDirection(int const & direction){
 void	AGameObj::showShape(WINDOW *wMap) const{
 	mvwprintw(wMap, _y, _x, "%c", _shape);
 }
-void	AGameObj::cleanPrevPosition(WINDOW *wMap, vector<vPair> & map){
-	mvwprintw(wMap, _y, _x, "%C", map[_y][_x].first);
+void	AGameObj::cleanPosition(WINDOW *wMap, vector<vPair> & map){
+	mvwprintw(wMap, _y, _x, "%c", map[_y][_x].first);
+}
+void	AGameObj::modifyCoord(){
+	modifyVertically();
+	modifyHorizontally();
+}
+void	AGameObj::modifyHorizontally(){
+	if (_x < 1)
+		_x = MAP_WIDTH - 2;
+	else if (_x > MAP_WIDTH - 1)
+		_x = 1;
+}
+void	AGameObj::modifyVertically(){
+	if (_y <= 0)
+		_y = MAP_HEIGHT - 1;
+	else if (_y > MAP_HEIGHT - 2)
+		_y = 0;
 }

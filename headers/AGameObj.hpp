@@ -13,20 +13,26 @@ class AGameObj {
 		virtual void	showObj(WINDOW *wMap, WINDOW *wScore) const = 0;
 		void			showShape(WINDOW *wMap) const;
 		void			move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, vector<AGameObj *> objPool);
+		void			moveCoord(int & x, int & y);
+		void			moveHorizontally(int & x);
+		void			moveVertically(int & y);
+		void			modifyCoord();
+		void			modifyHorizontally();
+		void			modifyVertically();
 		virtual void	specialMoving(vector<vPair> &map, vector<AGameObj *> objPool) = 0;
-		bool			coordOnTheBorder(vector <vPair> &map, size_t x, size_t y) const;
-		bool			coordTheSame(size_t x, size_t y) const;//no
-		void			cleanPrevPosition(WINDOW *wMap, vector<vPair> & map);
-		size_t	&getX();
-		size_t	&getY();
+		bool			coordOnTheBorder(vector <vPair> &map, int x, int y) const;
+		bool			coordTheSame(int x, int y) const;//no
+		void			cleanPosition(WINDOW *wMap, vector<vPair> & map);
+		int		&getX();
+		int		&getY();
 		int		&getDirection();
-		void	setX(size_t const & x);
-		void	setY(size_t const & y);
+		void	setX(int const & x);
+		void	setY(int const & y);
 		void	setDirection(int const & direction);
 	protected: // private
-		size_t	_x;
-		size_t	_y;
-		wchar_t	_shape;
+		int		_x;
+		int		_y;
+		char	_shape;
 		int		_direction;
 	
 };

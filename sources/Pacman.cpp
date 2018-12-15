@@ -41,8 +41,8 @@ void	Pacman::showObj(WINDOW *wMap, WINDOW *wScore) const{
 	showShape(wMap);
 	mvwprintw(wScore, 1, 1, "lives: %d", _lives);
 	mvwprintw(wScore, 2, 1, "score: %d", _score);
-	mvwprintw(wScore, 1, 15, "x = %d", _x);
-	mvwprintw(wScore, 2, 15, "y = %d", _y);
+	mvwprintw(wScore, 2, 15, "x = %d", _x);
+	mvwprintw(wScore, 1, 15, "y = %d", _y);
 
 }
 void	Pacman::livesReduction(){
