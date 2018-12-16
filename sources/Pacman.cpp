@@ -2,9 +2,9 @@
 
 Pacman::Pacman() : AGameObj(MAP_WIDTH / 2 - 1, MAP_HEIGHT - 3, 'O'), _score(0){
 }
-// Pacman::Pacman(int const x, int const y){
+Pacman::Pacman(int const x, int const y) : AGameObj(x, y, 'O'), _score(0){
 
-// }
+}
 Pacman::Pacman(Pacman const & other){
 	*this = other;
 }

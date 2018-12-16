@@ -9,16 +9,18 @@ class Game{
 		Game(Game const & other);
 		Game &	operator = (Game const & other);
 		~Game();
+		void	gameCycle();
+		WINDOW	*wMap;
+		WINDOW	*wScore;
+	private:
 		void	initView();
 		void	initMap();
-		void	initObjPool();
-		void	gameCycle();
 		bool	userController();
+		void	initObjPool();
+		void	moveObjects();
 		void	showTheGame();
 		void	showMap() const;
 		void	gameIsOver();
-		WINDOW	*wMap;
-		WINDOW	*wScore;
 
 	protected:
 		vector<AGameObj *> objPool;

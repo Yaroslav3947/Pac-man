@@ -80,7 +80,7 @@ void	Game::initMap(){
 void	Game::initObjPool(){
 	objPool.push_back(new Pacman());
 	objPool.push_back(new Enemy());
-	objPool.push_back(new Enemy());
+	objPool.push_back(new Enemy(7, 9));
 }
 void	Game::gameCycle(){
 
@@ -90,12 +90,11 @@ void	Game::gameCycle(){
 	objPool[0]->showObj(wMap, wScore);
 	objPool[1]->showObj(wMap, wScore);//do while
 	while (userController()){
-		objPool[0]->move(map, wMap, wScore, objPool);
-		objPool[1]->move(map, wMap, wScore, objPool);
+		moveObjects();
 		if (objPool[0]->isAlive() == false)
 			break ;
 		showTheGame();
-		usleep(393330);
+		usleep(393310);
 		i++;
 	}
 	gameIsOver();
@@ -135,4 +134,9 @@ void	Game::gameIsOver(){
 	wrefresh(wMap);
 	usleep(3333333);
 
+}
+
+void	Game::moveObjects(){
+	for (size_t i = 0; i < objPool.size(); i++)
+		objPool[i]->move(map, wMap, wScore, objPool);
 }
