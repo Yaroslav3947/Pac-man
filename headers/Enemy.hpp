@@ -8,8 +8,9 @@ class Enemy : public AGameObj{
 		Enemy(Enemy const & other);
 		Enemy & operator = (Enemy const & other);
 		~Enemy();
+	private:
 		void	showObj(WINDOW *wMap, WINDOW *wScore) const;
-		void	specialMoving(vector<vPair> &map, vector<AGameObj *> objPool);
+		void	specialMoving(vector<vPair> &map, vector<AGameObj *> & objPool);
 		void	chooseDirection(vector<vPair> &map, vector<AGameObj *> objPool);
 
 };

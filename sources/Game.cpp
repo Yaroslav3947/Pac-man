@@ -25,7 +25,7 @@ void	Game::initView(){
 
 // /* Turn it off! */
 // putp(exit_attribute_mode);
-	system("printf '\e[8;65;65t'");
+	system("printf '\e[8;65;35t'");
 	setlocale(LC_ALL, "");
 	initscr();
 	start_color();
@@ -34,7 +34,7 @@ void	Game::initView(){
 	timeout(0);
 	curs_set(0);
 	wMap = newwin(MAP_HEIGHT + 2, MAP_WIDTH + 4, 1, 1);
-	wScore = newwin(4, MAP_WIDTH + 4, MAP_HEIGHT + 5, 1);
+	wScore = newwin(3, MAP_WIDTH + 4, MAP_HEIGHT + 1, 1);
 	box(wScore, 0, 0);
 	wrefresh(wMap);
 	wrefresh(wScore);
@@ -43,6 +43,7 @@ void	Game::initView(){
 
 	init_pair(COLOR_ROAD, COLOR_GREEN, COLOR_BLACK);
 	init_pair(COLOR_BORDER, COLOR_BLACK, COLOR_YELLOW);
+	init_pair(COLOR_GAMEOVER, COLOR_RED, COLOR_BLACK);
 
 }
 Game::~Game(){
@@ -57,9 +58,11 @@ void	Game::initMap(){
 		map[i].reserve(MAP_WIDTH);
 		for (int j = 0; j < MAP_WIDTH; j++){
 			if (i == 0 || j == 0 || j == 1 || i == MAP_HEIGHT - 1 || j == MAP_WIDTH - 1 || j == MAP_WIDTH - 2)
-				map[i][j] = make_pair(L' ', COLOR_BORDER);
+				map[i][j] = make_pair(' ', COLOR_BORDER);
+			else if (j == 7)
+				map[i][j] = make_pair('*', COLOR_ROAD);
 			else
-			map[i][j] =	j % 2 == 1 ? make_pair(L'.', COLOR_ROAD) : make_pair(L' ', COLOR_ROAD);
+				map[i][j] =	j % 2 == 1 ? make_pair(L'.', COLOR_ROAD) : make_pair(L' ', COLOR_ROAD);
 		}
 	}
 	map[5][0] = make_pair(L' ', COLOR_ROAD) ;
@@ -77,6 +80,7 @@ void	Game::initMap(){
 void	Game::initObjPool(){
 	objPool.push_back(new Pacman());
 	objPool.push_back(new Enemy());
+	objPool.push_back(new Enemy());
 }
 void	Game::gameCycle(){
 
@@ -88,11 +92,13 @@ void	Game::gameCycle(){
 	while (userController()){
 		objPool[0]->move(map, wMap, wScore, objPool);
 		objPool[1]->move(map, wMap, wScore, objPool);
-		mvwprintw(wScore, 1, 25, "direct = %c i = %d", objPool[0]->getDirection(), i);
+		if (objPool[0]->isAlive() == false)
+			break ;
 		showTheGame();
 		usleep(393330);
 		i++;
 	}
+	gameIsOver();
 }
 bool Game::userController(){
 	int c;
@@ -100,6 +106,8 @@ bool Game::userController(){
 	c = getch();
 	if (c == 's' || c == 'w' || c == 'a' || c == 'd')
 		objPool[0]->setDirection(c);
+	else if (c == KEY_ESC)
+		return false;
 	return true;
 }
 
@@ -117,4 +125,14 @@ void	Game::showMap() const{
 			wattroff(wMap, COLOR_PAIR(map[i][j].second));
 		}
 	}
+}
+
+void	Game::gameIsOver(){
+	string gameIsOver = "GAME OVER";
+	wattron(wMap, COLOR_PAIR(COLOR_GAMEOVER));
+	mvwprintw(wMap, MAP_HEIGHT/2, MAP_WIDTH/2 - gameIsOver.size()/2, "%s", gameIsOver.c_str());
+	wattroff(wMap, COLOR_PAIR(COLOR_GAMEOVER));
+	wrefresh(wMap);
+	usleep(3333333);
+
 }

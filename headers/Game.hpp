@@ -16,6 +16,7 @@ class Game{
 		bool	userController();
 		void	showTheGame();
 		void	showMap() const;
+		void	gameIsOver();
 		WINDOW	*wMap;
 		WINDOW	*wScore;
 

@@ -19,9 +19,18 @@ void	Enemy::showObj(WINDOW *wMap, WINDOW *wScore) const{
 	showShape(wMap);
 	mvwprintw(wScore, 2, 27, "Enemy x = %d, y = %d direct = %c", _x, _y, _direction);
 }
-void	Enemy::specialMoving(vector<vPair> &map, vector<AGameObj *> objPool){
+void	Enemy::specialMoving(vector<vPair> &map, vector<AGameObj *> & objPool){
 
 	chooseDirection(map, objPool);
+	for (size_t i = 0; i < objPool.size(); i++){
+		if (objPool.at(i)->getX() == _x && objPool.at(i)->getY() == _y){
+			if (i == 0)
+				objPool[i]->isKilled();
+			else
+				objPool[i]->setDirection(0);
+		}
+
+	}
 }
 void	Enemy::chooseDirection(vector<vPair> &map, vector<AGameObj *> objPool){
 	int directions[4][3] = {{'s', 1, 0}, {'d', 0, 1}, {'w', -1, 0}, {'a', 0, -1}};

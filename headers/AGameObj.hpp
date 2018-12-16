@@ -10,31 +10,35 @@ class AGameObj {
 		AGameObj(AGameObj const & other);
 		AGameObj & operator = (AGameObj const & other);
 		virtual ~AGameObj() = 0;
-		//need?virtual bool	isAlive() = 0;
 		virtual void	showObj(WINDOW *wMap, WINDOW *wScore) const = 0;
+		virtual void	specialMoving(vector<vPair> &map, vector<AGameObj *> & objPool) = 0;
+		void			move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, vector<AGameObj *> & objPool);
+		int				&getX();
+		int				&getY();
+		int				&getDirection();
+		void			setX(int const & x);
+		void			setY(int const & y);
+		void			setDirection(int const & direction);
+		bool			isAlive();
+		void			isKilled();
+	protected:
 		void			showShape(WINDOW *wMap) const;
-		void			move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, vector<AGameObj *> objPool);
-		void			moveCoord(int & x, int & y);
-		void			moveHorizontally(int & x);
-		void			moveVertically(int & y);
 		void			modifyCoord();
-		void			modifyHorizontally();
-		void			modifyVertically();
-		virtual void	specialMoving(vector<vPair> &map, vector<AGameObj *> objPool) = 0;
+		void			moveCoord(int & x, int & y);
 		bool			coordOnTheBorder(vector <vPair> &map, int x, int y) const;
 		bool			coordTheSame(int x, int y) const;//no
+	private:
+		void			moveHorizontally(int & x);
+		void			moveVertically(int & y);
+		void			modifyHorizontally();
+		void			modifyVertically();
 		void			cleanPosition(WINDOW *wMap, vector<vPair> & map);
-		int		&getX();
-		int		&getY();
-		int		&getDirection();
-		void	setX(int const & x);
-		void	setY(int const & y);
-		void	setDirection(int const & direction);
-	protected: // private
+	protected:
 		int		_x;
 		int		_y;
 		char	_shape;
 		int		_direction;
+		bool	_isAlive;
 	
 };
 #endif

@@ -7,20 +7,18 @@ class Pacman : public AGameObj{
 
 	public:
 		Pacman();
+		Pacman(int const x, int const y);
 		Pacman(Pacman const & other);
 		Pacman & operator = (Pacman const & other);
 		~Pacman();
-		void	livesReduction();
-		void	scoreImproving();
-		size_t	&getLives();
 		size_t	&getScore();
-		void	setLives(size_t const & lives);	
-		void	setScore(size_t const & score);	
-		void	showObj(WINDOW *wMap, WINDOW *wScore) const;
-		void	specialMoving(vector<vPair> &map, vector<AGameObj *> objPool);
+		void	setScore(size_t const & score);
+		void	livesReduction();
 
 	private:
-		size_t _lives;
+		void	scoreImproving(wchar_t & food);
+		void	showObj(WINDOW *wMap, WINDOW *wScore) const;
+		void	specialMoving(vector<vPair> &map, vector<AGameObj *> & objPool);
 		size_t _score;
 	
 };

@@ -3,7 +3,7 @@
 AGameObj::AGameObj() : _x(0), _y(0), _shape(0), _direction(0){
 }
 AGameObj::AGameObj(size_t const & x, size_t const & y, wchar_t const & shape) :
-	_x(x), _y(y), _shape(shape), _direction(0){
+	_x(x), _y(y), _shape(shape), _direction(0), _isAlive(1){
 }
 
 AGameObj::AGameObj(AGameObj const & other){
@@ -19,7 +19,7 @@ AGameObj & AGameObj::operator = (AGameObj const & other){
 	return *this;
 }
 AGameObj::~AGameObj(){}
-void	AGameObj::move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, vector<AGameObj *> objPool){
+void	AGameObj::move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, vector<AGameObj *> & objPool){
 	int y = _y;
 	int x = _x;
 	moveCoord(x, y);
@@ -108,4 +108,10 @@ void	AGameObj::modifyVertically(){
 		_y = MAP_HEIGHT - 1;
 	else if (_y >= MAP_HEIGHT - 1)
 		_y = 0;
+}
+void	AGameObj::isKilled(){
+	_isAlive = 0;
+}
+bool	AGameObj::isAlive(){
+	return _isAlive;
 }
