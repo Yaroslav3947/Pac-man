@@ -26,8 +26,8 @@ void	Enemy::specialMoving(vector<vPair> &map, vector<AGameObj *> & objPool){
 		if (objPool.at(i)->getX() == _x && objPool.at(i)->getY() == _y){
 			if (i == 0)
 				objPool[i]->isKilled();
-			else
-				objPool[i]->setDirection(0);
+			// else if (getDirection() != 0)
+			// 	objPool[i]->setDirection(0);
 		}
 
 	}

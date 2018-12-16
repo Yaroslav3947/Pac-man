@@ -7,7 +7,7 @@ class Pacman : public AGameObj{
 
 	public:
 		Pacman();
-		Pacman(int const x, int const y);
+		//Pacman(int const x, int const y);
 		Pacman(Pacman const & other);
 		Pacman & operator = (Pacman const & other);
 		~Pacman();
