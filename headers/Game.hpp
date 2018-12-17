@@ -7,8 +7,6 @@ class Game{
 	public:
 		Game();
 		Game(char userMap[MAP_HEIGHT][MAP_WIDTH]);
-		Game(Game const & other);
-		Game &	operator = (Game const & other);
 		~Game();
 		void	gameCycle();
 		WINDOW	*wMap;
@@ -22,6 +20,7 @@ class Game{
 		void	showTheGame();
 		void	showMap() const;
 		void	gameIsOver();
+		void	victory();
 
 	protected:
 		deque<AGameObj *> objPool;

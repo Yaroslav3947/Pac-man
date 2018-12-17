@@ -38,7 +38,12 @@ void	Pacman::specialMoving(vector<vPair> &map, deque<AGameObj *> & objPool){
 		scoreImproving(map[_y][_x].first);
 		map[_y][_x].first = ' ';
 	}
+	else if (map[_y][_x].first == 'W')
+		setStatus(WON);
+
+
 }
+
 void	Pacman::showObj(WINDOW *wMap, WINDOW *wScore) const{
 
 	showShape(wMap);

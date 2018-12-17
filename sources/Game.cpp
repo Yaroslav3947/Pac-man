@@ -9,7 +9,8 @@ Game::Game(char userMap[MAP_HEIGHT][MAP_WIDTH]){
 	for (size_t i = 0; i < MAP_HEIGHT; i++){
 		map[i].reserve(MAP_WIDTH);
 		for (size_t j = 0; j < MAP_WIDTH; j++){
-			if (userMap[i][j] == ' ' || userMap[i][j] == '.' || userMap[i][j] == '#')
+			if (userMap[i][j] == ' ' || userMap[i][j] == '.'
+				|| userMap[i][j] == '#' || userMap[i][j] == 'W')
 				initMap(userMap[i][j], i, j);
 			else if (userMap[i][j] == 'O' || userMap[i][j] == 'X'){
 				initObjPool(userMap[i][j], i, j);
@@ -17,14 +18,6 @@ Game::Game(char userMap[MAP_HEIGHT][MAP_WIDTH]){
 			}
 		}
 	}
-}
-Game::Game(Game const & other){
-	*this = other;
-}
-Game & Game::operator = (Game const & other){
-	objPool = other.objPool;
-	//map = other.map;
-	return *this;
 }
 //#include <term.h>
 void	Game::initView(){
@@ -76,6 +69,9 @@ void	Game::initMap(char c, size_t i, size_t j){
 		case '#':
 		map[i][j] = make_pair(' ', COLOR_BORDER);
 		break ;
+		case 'W':
+		map[i][j] = make_pair('W', COLOR_ROAD);
+		break ;
 		default:
 		map[i][j] = make_pair(' ', COLOR_ROAD);
 	}
@@ -94,13 +90,16 @@ void	Game::gameCycle(){
 	showMap();
 	while (userController()){
 		moveObjects();
-		if (objPool[0]->isAlive() == false)
+		if (objPool[0]->getStatus() != ALIVE)
 			break ;
 		showTheGame();
 		usleep(393310);
 		i++;
 	}
-	gameIsOver();
+	if (objPool[0]->getStatus() == KILLED)
+		gameIsOver();
+	else if (objPool[0]->getStatus() == WON)
+		victory();
 }
 bool Game::userController(){
 	int c;
@@ -137,6 +136,15 @@ void	Game::gameIsOver(){
 	wrefresh(wMap);
 	usleep(3333333);
 
+}
+
+void	Game::victory(){
+	string gameIsOver = "VICTORY";
+	wattron(wMap, COLOR_PAIR(COLOR_ROAD));
+	mvwprintw(wMap, MAP_HEIGHT/2, MAP_WIDTH/2 - gameIsOver.size()/2, "%s", gameIsOver.c_str());
+	wattroff(wMap, COLOR_PAIR(COLOR_ROAD));
+	wrefresh(wMap);
+	usleep(3333333);
 }
 
 void	Game::moveObjects(){

@@ -16,10 +16,11 @@ class AGameObj {
 		int				&getX();
 		int				&getY();
 		int				&getDirection();
+		short			&getStatus();
 		void			setX(int const & x);
 		void			setY(int const & y);
 		void			setDirection(int const & direction);
-		bool			isAlive();
+		void			setStatus(short const & status);
 		void			isKilled();
 	protected:
 		void			showShape(WINDOW *wMap) const;
@@ -38,7 +39,7 @@ class AGameObj {
 		int		_y;
 		char	_shape;
 		int		_direction;
-		bool	_isAlive;
+		short	_status;
 	
 };
 #endif

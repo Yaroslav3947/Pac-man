@@ -1,9 +1,9 @@
 #include "AGameObj.hpp"
 
-AGameObj::AGameObj() : _x(0), _y(0), _shape(0), _direction(0){
+AGameObj::AGameObj() : _x(0), _y(0), _shape(0), _direction(0), _status(1){
 }
 AGameObj::AGameObj(size_t const & x, size_t const & y, wchar_t const & shape) :
-	_x(x), _y(y), _shape(shape), _direction(0), _isAlive(1){
+	_x(x), _y(y), _shape(shape), _direction(0), _status(1){
 }
 
 AGameObj::AGameObj(AGameObj const & other){
@@ -62,7 +62,7 @@ void	AGameObj::moveVertically(int & y){
 	}
 }
 bool	AGameObj::coordOnTheBorder(vector <vPair> & map, int x, int y) const{
-	if (map[y][x].second == COLOR_BORDER)
+	if (y >= 0 && x >= 0 && map[y][x].second == COLOR_BORDER)
 		return true;
 	return false;
 }
@@ -105,14 +105,17 @@ void	AGameObj::modifyHorizontally(){
 		_x = 0;
 }
 void	AGameObj::modifyVertically(){
-	if (_y <= 0)
+	if (_y < 0)
 		_y = MAP_HEIGHT - 1;
 	else if (_y >= MAP_HEIGHT - 1)
 		_y = 0;
 }
 void	AGameObj::isKilled(){
-	_isAlive = 0;
+	_status = 0;
 }
-bool	AGameObj::isAlive(){
-	return _isAlive;
+short	& AGameObj::getStatus(){
+	return _status;
+}
+void	AGameObj::setStatus(short const & status){
+	_status = status;
 }
