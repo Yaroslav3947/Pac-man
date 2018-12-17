@@ -19,8 +19,8 @@ class Game{
 		void	moveObjects();
 		void	showTheGame();
 		void	showMap() const;
-		void	gameIsOver();
-		void	victory();
+		void	gameIsOver() const;
+		void	victory() const;
 
 	protected:
 		deque<AGameObj *> objPool;

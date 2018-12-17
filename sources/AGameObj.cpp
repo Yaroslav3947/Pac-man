@@ -15,6 +15,7 @@ AGameObj & AGameObj::operator = (AGameObj const & other){
 		_y = other._y;
 		_shape = other._shape;
 		_direction = other._direction;
+		_status = other._status;
 	}
 	return *this;
 }
@@ -25,49 +26,53 @@ void	AGameObj::move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, deque<AGa
 
 	specialMoving(map, objPool);
 	moveCoord(x, y);
-	if (coordOnTheBorder(map, x, y))
+	if (coordOnTheBorder(map, x, y) || getStatus() != ALIVE)
 		return ;
 	cleanPosition(wMap, map);
 	setX(x);
 	setY(y);
 	modifyCoord();
+	if (coordOnTheBorder(map, _x, _y)){
+		setStatus(KILLED);
+		return ;
+	}
 	showObj(wMap, wScore);
 
 }
 void	AGameObj::moveCoord(int & x, int & y){
-	if (_direction == 'a' || _direction == 'd')
+	if (_direction == LEFT || _direction == RIGHT)
 		moveHorizontally(x);
-	else if(_direction == 'w' || _direction == 's')
+	else if(_direction == UP || _direction == DOWN)
 		moveVertically(y);
 	
 }
 void	AGameObj::moveHorizontally(int & x){
 	switch(_direction){
-		case 'a':
+		case LEFT:
 			x-=1;
 		break ;
-		case 'd':
+		case RIGHT:
 			x+=1;
 		break ;
 	}
 }
 void	AGameObj::moveVertically(int & y){
 	switch(_direction){
-		case 'w':
+		case UP:
 			y--;
 		break ;
-		case 's':
+		case DOWN:
 			y++;
 		break ;
 	}
 }
 bool	AGameObj::coordOnTheBorder(vector <vPair> & map, int x, int y) const{
-	if (y >= 0 && x >= 0 && map[y][x].second == COLOR_BORDER)
-		return true;
+	if (y >= 0 && x >= 0 && y < MAP_HEIGHT && x < MAP_WIDTH){
+		if (map[y][x].second == COLOR_BORDER)
+			return true;
+		return false;
+	}
 	return false;
-}
-bool	AGameObj::coordTheSame(int x, int y) const{
-	return (x == _x && y == _y);
 }
 int &AGameObj::getX(){
 	return _x;
@@ -100,18 +105,15 @@ void	AGameObj::modifyCoord(){
 }
 void	AGameObj::modifyHorizontally(){
 	if (_x < 0)
-		_x = MAP_WIDTH - 1;
+		_x = MAP_WIDTH - 2;
 	else if (_x >= MAP_WIDTH - 1)
 		_x = 0;
 }
 void	AGameObj::modifyVertically(){
 	if (_y < 0)
 		_y = MAP_HEIGHT - 1;
-	else if (_y >= MAP_HEIGHT - 1)
+	else if (_y > MAP_HEIGHT - 1)
 		_y = 0;
-}
-void	AGameObj::isKilled(){
-	_status = 0;
 }
 short	& AGameObj::getStatus(){
 	return _status;

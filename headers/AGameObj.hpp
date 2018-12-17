@@ -21,13 +21,11 @@ class AGameObj {
 		void			setY(int const & y);
 		void			setDirection(int const & direction);
 		void			setStatus(short const & status);
-		void			isKilled();
 	protected:
 		void			showShape(WINDOW *wMap) const;
-		void			modifyCoord();
 		void			moveCoord(int & x, int & y);
 		bool			coordOnTheBorder(vector <vPair> &map, int x, int y) const;
-		bool			coordTheSame(int x, int y) const;//no
+		void			modifyCoord();
 	private:
 		void			moveHorizontally(int & x);
 		void			moveVertically(int & y);

@@ -3,14 +3,14 @@
 Game::Game(){
 
 }
-Game::Game(char userMap[MAP_HEIGHT][MAP_WIDTH]){
+Game::Game(char userMap[MAP_HEIGHT][MAP_WIDTH]) : Game(){
 	initView();
 	map.reserve(MAP_HEIGHT);
 	for (size_t i = 0; i < MAP_HEIGHT; i++){
 		map[i].reserve(MAP_WIDTH);
 		for (size_t j = 0; j < MAP_WIDTH; j++){
 			if (userMap[i][j] == ' ' || userMap[i][j] == '.'
-				|| userMap[i][j] == '#' || userMap[i][j] == 'W')
+				|| userMap[i][j] == '#' || userMap[i][j] == 'V')
 				initMap(userMap[i][j], i, j);
 			else if (userMap[i][j] == 'O' || userMap[i][j] == 'X'){
 				initObjPool(userMap[i][j], i, j);
@@ -19,18 +19,7 @@ Game::Game(char userMap[MAP_HEIGHT][MAP_WIDTH]){
 		}
 	}
 }
-//#include <term.h>
 void	Game::initView(){
-// /* One-time initialization near the beginning of your program */
-// setupterm(NULL, STDOUT_FILENO, NULL);
-
-// /* Enter bold mode */
-// putp(enter_bold_mode);
-
-// printf("I am bold\n");
-
-// /* Turn it off! */
-// putp(exit_attribute_mode);
 	system("printf '\e[8;65;35t'");
 	setlocale(LC_ALL, "");
 	initscr();
@@ -44,7 +33,6 @@ void	Game::initView(){
 	box(wScore, 0, 0);
 	wrefresh(wMap);
 	wrefresh(wScore);
-	//refresh();
 	usleep(1000);
 
 	init_pair(COLOR_ROAD, COLOR_GREEN, COLOR_BLACK);
@@ -69,8 +57,8 @@ void	Game::initMap(char c, size_t i, size_t j){
 		case '#':
 		map[i][j] = make_pair(' ', COLOR_BORDER);
 		break ;
-		case 'W':
-		map[i][j] = make_pair('W', COLOR_ROAD);
+		case 'V':
+		map[i][j] = make_pair('V', COLOR_ROAD);
 		break ;
 		default:
 		map[i][j] = make_pair(' ', COLOR_ROAD);
@@ -105,7 +93,7 @@ bool Game::userController(){
 	int c;
 
 	c = getch();
-	if (c == 's' || c == 'w' || c == 'a' || c == 'd')
+	if (c == DOWN || c == UP || c == LEFT || c == RIGHT)
 		objPool[0]->setDirection(c);
 	else if (c == KEY_ESC)
 		return false;
@@ -128,7 +116,7 @@ void	Game::showMap() const{
 	}
 }
 
-void	Game::gameIsOver(){
+void	Game::gameIsOver() const{
 	string gameIsOver = "GAME OVER";
 	wattron(wMap, COLOR_PAIR(COLOR_GAMEOVER));
 	mvwprintw(wMap, MAP_HEIGHT/2, MAP_WIDTH/2 - gameIsOver.size()/2, "%s", gameIsOver.c_str());
@@ -138,7 +126,7 @@ void	Game::gameIsOver(){
 
 }
 
-void	Game::victory(){
+void	Game::victory() const{
 	string gameIsOver = "VICTORY";
 	wattron(wMap, COLOR_PAIR(COLOR_ROAD));
 	mvwprintw(wMap, MAP_HEIGHT/2, MAP_WIDTH/2 - gameIsOver.size()/2, "%s", gameIsOver.c_str());

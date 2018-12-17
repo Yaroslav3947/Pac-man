@@ -28,7 +28,7 @@ void	Enemy::specialMoving(vector<vPair> &map, deque<AGameObj *> & objPool){
 	chooseDirection(map, objPool);
 }
 void	Enemy::chooseDirection(vector<vPair> &map, deque<AGameObj *> & objPool){
-	int directions[4][3] = {{'s', 1, 0}, {'d', 0, 1}, {'w', -1, 0}, {'a', 0, -1}};
+	int directions[4][3] = {{DOWN, 1, 0}, {RIGHT, 0, 1}, {UP, -1, 0}, {LEFT, 0, -1}};
 	int powDistance = 0;
 	int minPowDistance = pow(MAP_HEIGHT, 2) + pow(MAP_WIDTH, 2);
 	int savedXY[2] = {_y, _x};
@@ -55,7 +55,7 @@ bool	Enemy::isIntersection(deque<AGameObj *> & objPool){
 	for (size_t i = 0; objPool.at(i) != this; i++){
 		if (objPool.at(i)->getX() == _x && objPool.at(i)->getY() == _y && getDirection()){
 			if (i == 0)
-				objPool[0]->isKilled();
+				objPool[0]->setStatus(KILLED);
 			return true;
 		}
 	}
