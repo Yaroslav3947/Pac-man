@@ -19,7 +19,7 @@ Pacman & Pacman::operator = (Pacman const & other){
 	return *this;
 }
 Pacman::~Pacman(){}
-void	Pacman::scoreImproving(wchar_t & food){
+void	Pacman::scoreImproving(char & food){
 	if (food == '.')
 		_score += 10;
 	else
@@ -29,7 +29,7 @@ void	Pacman::scoreImproving(wchar_t & food){
 void	Pacman::setScore(size_t const & score){
 	_score = score;
 }
-void	Pacman::specialMoving(vector<vPair> &map, vector<AGameObj *> & objPool){
+void	Pacman::specialMoving(vector<vPair> &map, deque<AGameObj *> & objPool){
 	for (size_t i = 1; i < objPool.size(); i++){
 		if (objPool.at(i)->getX() == _x && objPool.at(i)->getY() == _y)
 			isKilled();

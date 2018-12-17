@@ -19,9 +19,11 @@ AGameObj & AGameObj::operator = (AGameObj const & other){
 	return *this;
 }
 AGameObj::~AGameObj(){}
-void	AGameObj::move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, vector<AGameObj *> & objPool){
+void	AGameObj::move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, deque<AGameObj *> & objPool){
 	int y = _y;
 	int x = _x;
+
+	specialMoving(map, objPool);
 	moveCoord(x, y);
 	if (coordOnTheBorder(map, x, y))
 		return ;
@@ -29,7 +31,6 @@ void	AGameObj::move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, vector<AG
 	setX(x);
 	setY(y);
 	modifyCoord();
-	specialMoving(map, objPool);
 	showObj(wMap, wScore);
 
 }
@@ -38,6 +39,7 @@ void	AGameObj::moveCoord(int & x, int & y){
 		moveHorizontally(x);
 	else if(_direction == 'w' || _direction == 's')
 		moveVertically(y);
+	
 }
 void	AGameObj::moveHorizontally(int & x){
 	switch(_direction){
@@ -59,7 +61,6 @@ void	AGameObj::moveVertically(int & y){
 		break ;
 	}
 }
-
 bool	AGameObj::coordOnTheBorder(vector <vPair> & map, int x, int y) const{
 	if (map[y][x].second == COLOR_BORDER)
 		return true;

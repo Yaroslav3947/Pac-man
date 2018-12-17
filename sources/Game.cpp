@@ -1,9 +1,22 @@
 #include "Game.hpp"
 
 Game::Game(){
-	initMap();
-	initObjPool();
+
+}
+Game::Game(char userMap[MAP_HEIGHT][MAP_WIDTH]){
 	initView();
+	map.reserve(MAP_HEIGHT);
+	for (size_t i = 0; i < MAP_HEIGHT; i++){
+		map[i].reserve(MAP_WIDTH);
+		for (size_t j = 0; j < MAP_WIDTH; j++){
+			if (userMap[i][j] == ' ' || userMap[i][j] == '.' || userMap[i][j] == '#')
+				initMap(userMap[i][j], i, j);
+			else if (userMap[i][j] == 'O' || userMap[i][j] == 'X'){
+				initObjPool(userMap[i][j], i, j);
+				initMap(' ', i, j);
+			}
+		}
+	}
 }
 Game::Game(Game const & other){
 	*this = other;
@@ -52,43 +65,33 @@ Game::~Game(){
 	endwin();
 }
 
-void	Game::initMap(){
-	map.reserve(MAP_HEIGHT);
-	for (int i = 0; i < MAP_HEIGHT; i++){
-		map[i].reserve(MAP_WIDTH);
-		for (int j = 0; j < MAP_WIDTH; j++){
-			if (i == 0 || j == 0 || j == 1 || i == MAP_HEIGHT - 1 || j == MAP_WIDTH - 1 || j == MAP_WIDTH - 2)
-				map[i][j] = make_pair(' ', COLOR_BORDER);
-			else if (j == 7)
-				map[i][j] = make_pair('*', COLOR_ROAD);
-			else
-				map[i][j] =	j % 2 == 1 ? make_pair(L'.', COLOR_ROAD) : make_pair(L' ', COLOR_ROAD);
-		}
+void	Game::initMap(char c, size_t i, size_t j){
+	switch(c){
+		case ' ':
+		map[i][j] = make_pair(' ', COLOR_ROAD);
+		break ;
+		case '.':
+		map[i][j] = make_pair('.', COLOR_ROAD);
+		break ;
+		case '#':
+		map[i][j] = make_pair(' ', COLOR_BORDER);
+		break ;
+		default:
+		map[i][j] = make_pair(' ', COLOR_ROAD);
 	}
-	map[5][0] = make_pair(L' ', COLOR_ROAD) ;
-	map[1][6] = make_pair(L' ', COLOR_BORDER) ;
-	map[5][1] = make_pair(L'.', COLOR_ROAD) ;
-	map[5][MAP_WIDTH - 1] = make_pair(L'.', COLOR_ROAD) ;
-	map[5][MAP_WIDTH - 2] = make_pair(L' ', COLOR_ROAD) ;
-	map[0][5] = make_pair(L'.', COLOR_ROAD) ;
-	map[1][5] = make_pair(L'.', COLOR_ROAD) ;
-	map[MAP_HEIGHT - 1][5] = make_pair(L'.', COLOR_ROAD) ;
-	map[MAP_HEIGHT - 1][5] = make_pair(L' ', COLOR_ROAD) ;
-
 
 }
-void	Game::initObjPool(){
-	objPool.push_back(new Pacman());
-	objPool.push_back(new Enemy());
-	objPool.push_back(new Enemy(7, 9));
+void	Game::initObjPool(char c, size_t i, size_t j){
+	if (c == 'O')
+		objPool.push_front(new Pacman(j, i));
+	else
+		objPool.push_back(new Enemy(j, i));
 }
 void	Game::gameCycle(){
 
 	int i = 0;
 
 	showMap();
-	objPool[0]->showObj(wMap, wScore);
-	objPool[1]->showObj(wMap, wScore);//do while
 	while (userController()){
 		moveObjects();
 		if (objPool[0]->isAlive() == false)

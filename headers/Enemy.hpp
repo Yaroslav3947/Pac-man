@@ -11,9 +11,9 @@ class Enemy : public AGameObj{
 		~Enemy();
 	private:
 		void	showObj(WINDOW *wMap, WINDOW *wScore) const;
-		void	specialMoving(vector<vPair> &map, vector<AGameObj *> & objPool);
-		void	chooseDirection(vector<vPair> &map, vector<AGameObj *> & objPool);
-		bool	isIntersection(vector<AGameObj *> & objPool);
+		void	specialMoving(vector<vPair> &map, deque<AGameObj *> & objPool);
+		void	chooseDirection(vector<vPair> &map, deque<AGameObj *> & objPool);
+		bool	isIntersection(deque<AGameObj *> & objPool);
 
 };
 

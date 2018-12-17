@@ -16,9 +16,9 @@ class Pacman : public AGameObj{
 		void	livesReduction();
 
 	private:
-		void	scoreImproving(wchar_t & food);
+		void	scoreImproving(char & food);
 		void	showObj(WINDOW *wMap, WINDOW *wScore) const;
-		void	specialMoving(vector<vPair> &map, vector<AGameObj *> & objPool);
+		void	specialMoving(vector<vPair> &map, deque<AGameObj *> & objPool);
 		size_t _score;
 	
 };

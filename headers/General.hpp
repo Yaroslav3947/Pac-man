@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <deque>
 #include <cstddef>
 #include <cstdio>
 #include <ncurses.h>
@@ -14,6 +15,6 @@
 #define MAP_HEIGHT 19
 #define KEY_ESC 27
 using namespace std;
-typedef vector<pair< wchar_t, short> > vPair;
+typedef vector<pair<char, short> > vPair;
 
 #endif

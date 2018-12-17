@@ -22,23 +22,12 @@ void	Enemy::showObj(WINDOW *wMap, WINDOW *wScore) const{
 	showShape(wMap);
 	mvwprintw(wScore, 2, 1, "Enemy x = %d, y = %d direct = %c", _x, _y, _direction);
 }
-void	Enemy::specialMoving(vector<vPair> &map, vector<AGameObj *> & objPool){
+void	Enemy::specialMoving(vector<vPair> &map, deque<AGameObj *> & objPool){
+	if (isIntersection(objPool))
+		return ;
 	chooseDirection(map, objPool);
-	if (objPool.at(0)->getX() == _x && objPool.at(0)->getY() == _y)
-		objPool[0]->isKilled();
-	// if (isIntersection(objPool))
-	// 	setDirection(0);
-	// for (size_t i = 0; i < objPool.size(); i++){
-	// 	if (objPool.at(i)->getX() == _x && objPool.at(i)->getY() == _y){
-	// 		if (i == 0)
-	// 			objPool[i]->isKilled();
-	// 		else if (getDirection() == 0)
-	// 			objPool[i]->setDirection(0);
-	// 	}
-	// }
-	
 }
-void	Enemy::chooseDirection(vector<vPair> &map, vector<AGameObj *> & objPool){
+void	Enemy::chooseDirection(vector<vPair> &map, deque<AGameObj *> & objPool){
 	int directions[4][3] = {{'s', 1, 0}, {'d', 0, 1}, {'w', -1, 0}, {'a', 0, -1}};
 	int powDistance = 0;
 	int minPowDistance = pow(MAP_HEIGHT, 2) + pow(MAP_WIDTH, 2);
@@ -62,10 +51,11 @@ void	Enemy::chooseDirection(vector<vPair> &map, vector<AGameObj *> & objPool){
 	_y = savedXY[0];
 	_x = savedXY[1];
 }
-bool	Enemy::isIntersection(vector<AGameObj *> & objPool){
-	for (size_t i = 1; i < 3; i++){
-		if (objPool.at(i)->getX() == _x && objPool.at(i)->getY() == _y && getDirection() && objPool.at(i) != this){
-			setDirection(0);
+bool	Enemy::isIntersection(deque<AGameObj *> & objPool){
+	for (size_t i = 0; objPool.at(i) != this; i++){
+		if (objPool.at(i)->getX() == _x && objPool.at(i)->getY() == _y && getDirection()){
+			if (i == 0)
+				objPool[0]->isKilled();
 			return true;
 		}
 	}

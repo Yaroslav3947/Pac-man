@@ -6,6 +6,7 @@
 class Game{
 	public:
 		Game();
+		Game(char userMap[MAP_HEIGHT][MAP_WIDTH]);
 		Game(Game const & other);
 		Game &	operator = (Game const & other);
 		~Game();
@@ -13,17 +14,17 @@ class Game{
 		WINDOW	*wMap;
 		WINDOW	*wScore;
 	private:
+		void	initMap(char c, size_t i, size_t j);
+		void	initObjPool(char c, size_t i, size_t j);
 		void	initView();
-		void	initMap();
 		bool	userController();
-		void	initObjPool();
 		void	moveObjects();
 		void	showTheGame();
 		void	showMap() const;
 		void	gameIsOver();
 
 	protected:
-		vector<AGameObj *> objPool;
+		deque<AGameObj *> objPool;
 		vector<vPair> map;
 };
 
