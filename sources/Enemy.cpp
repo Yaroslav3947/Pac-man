@@ -19,8 +19,9 @@ Enemy & Enemy::operator = (Enemy const & other) {
 }
 Enemy::~Enemy(){}
 void	Enemy::showObj(WINDOW *wMap, WINDOW *wScore) const{
+	char str[] = "[w] UP [s] DOWN [d] LEFT [a] RIGHT";
 	showShape(wMap);
-	mvwprintw(wScore, 2, 1, "Enemy x = %d, y = %d direct = %c", _x, _y, _direction);
+	mvwprintw(wScore, 1, MAP_WIDTH - strlen(str), "%s", str);
 }
 void	Enemy::specialMoving(vector<vPair> &map, deque<AGameObj *> & objPool){
 	if (isIntersection(objPool))

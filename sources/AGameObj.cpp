@@ -20,7 +20,7 @@ AGameObj & AGameObj::operator = (AGameObj const & other){
 	return *this;
 }
 AGameObj::~AGameObj(){}
-void	AGameObj::move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, deque<AGameObj *> & objPool){
+void	AGameObj::move(vector<vPair> & map, WINDOW *wMap, deque<AGameObj *> & objPool){
 	int y = _y;
 	int x = _x;
 
@@ -36,7 +36,6 @@ void	AGameObj::move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, deque<AGa
 		setStatus(KILLED);
 		return ;
 	}
-	showObj(wMap, wScore);
 
 }
 void	AGameObj::moveCoord(int & x, int & y){

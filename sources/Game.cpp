@@ -1,9 +1,6 @@
 #include "Game.hpp"
 
-Game::Game(){
-
-}
-Game::Game(char userMap[MAP_HEIGHT][MAP_WIDTH]) : Game(){
+Game::Game(char userMap[MAP_HEIGHT][MAP_WIDTH]){
 	initView();
 	map.reserve(MAP_HEIGHT);
 	for (size_t i = 0; i < MAP_HEIGHT; i++){
@@ -49,26 +46,26 @@ Game::~Game(){
 void	Game::initMap(char c, size_t i, size_t j){
 	switch(c){
 		case ' ':
-		map[i][j] = make_pair(' ', COLOR_ROAD);
+			map[i][j] = make_pair(' ', COLOR_ROAD);
 		break ;
 		case '.':
-		map[i][j] = make_pair('.', COLOR_ROAD);
+			map[i][j] = make_pair('.', COLOR_ROAD);
 		break ;
 		case '#':
-		map[i][j] = make_pair(' ', COLOR_BORDER);
+			map[i][j] = make_pair(' ', COLOR_BORDER);
 		break ;
 		case 'V':
-		map[i][j] = make_pair('V', COLOR_ROAD);
+			map[i][j] = make_pair('V', COLOR_ROAD);
 		break ;
 		default:
-		map[i][j] = make_pair(' ', COLOR_ROAD);
+			map[i][j] = make_pair(' ', COLOR_ROAD);
 	}
 
 }
 void	Game::initObjPool(char c, size_t i, size_t j){
 	if (c == 'O')
 		objPool.push_front(new Pacman(j, i));
-	else
+	else if (c == 'X')
 		objPool.push_back(new Enemy(j, i));
 }
 void	Game::gameCycle(){
@@ -101,7 +98,8 @@ bool Game::userController(){
 }
 
 void	Game::showTheGame(){
-
+	for (size_t i = 0; i < objPool.size(); i++)
+		objPool.at(i)->showObj(wMap, wScore);
 	box(wScore, 0, 0);
 	wrefresh(wMap);
 	wrefresh(wScore);
@@ -137,5 +135,5 @@ void	Game::victory() const{
 
 void	Game::moveObjects(){
 	for (size_t i = 0; i < objPool.size(); i++)
-		objPool[i]->move(map, wMap, wScore, objPool);
+		objPool[i]->move(map, wMap, objPool);
 }

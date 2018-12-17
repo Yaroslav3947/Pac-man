@@ -12,7 +12,7 @@ class AGameObj {
 		virtual ~AGameObj() = 0;
 		virtual void	showObj(WINDOW *wMap, WINDOW *wScore) const = 0;
 		virtual void	specialMoving(vector<vPair> &map, deque<AGameObj *> & objPool) = 0;
-		void			move(vector<vPair> & map, WINDOW *wMap, WINDOW *wScore, deque<AGameObj *> & objPool);
+		void			move(vector<vPair> & map, WINDOW *wMap, deque<AGameObj *> & objPool);
 		int				&getX();
 		int				&getY();
 		int				&getDirection();

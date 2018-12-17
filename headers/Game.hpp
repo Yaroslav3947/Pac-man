@@ -5,7 +5,6 @@
 #include "Enemy.hpp"
 class Game{
 	public:
-		Game();
 		Game(char userMap[MAP_HEIGHT][MAP_WIDTH]);
 		~Game();
 		void	gameCycle();
