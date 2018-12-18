@@ -6,7 +6,7 @@ class AGameObj {
 
 	public:
 		AGameObj();
-		AGameObj(size_t const & x, size_t const & y, wchar_t const & shape);
+		AGameObj(size_t const & x, size_t const & y, char const & shape);
 		AGameObj(AGameObj const & other);
 		AGameObj & operator = (AGameObj const & other);
 		virtual ~AGameObj() = 0;

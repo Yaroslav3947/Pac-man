@@ -19,7 +19,7 @@ Enemy & Enemy::operator = (Enemy const & other) {
 }
 Enemy::~Enemy(){}
 void	Enemy::showObj(WINDOW *wMap, WINDOW *wScore) const{
-	char str[] = "[w] UP [s] DOWN [d] LEFT [a] RIGHT";
+	char str[] = "[esc] EXIT [w] UP [s] DOWN [d] LEFT [a] RIGHT";
 	showShape(wMap);
 	mvwprintw(wScore, 1, MAP_WIDTH - strlen(str), "%s", str);
 }

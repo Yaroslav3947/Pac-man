@@ -2,8 +2,8 @@
 
 AGameObj::AGameObj() : _x(0), _y(0), _shape(0), _direction(0), _status(1){
 }
-AGameObj::AGameObj(size_t const & x, size_t const & y, wchar_t const & shape) :
-	_x(x), _y(y), _shape(shape), _direction(0), _status(1){
+AGameObj::AGameObj(size_t const & x, size_t const & y, char const & shape) : AGameObj() {
+	_x = x, _y = y, _shape = shape;
 }
 
 AGameObj::AGameObj(AGameObj const & other){

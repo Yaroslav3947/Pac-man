@@ -5,12 +5,13 @@
 #include "Enemy.hpp"
 class Game{
 	public:
-		Game(char userMap[MAP_HEIGHT][MAP_WIDTH]);
+		Game(string userMap[MAP_HEIGHT]);
 		~Game();
 		void	gameCycle();
 		WINDOW	*wMap;
 		WINDOW	*wScore;
 	private:
+		bool	mapIsValid(string userMap[MAP_HEIGHT]);
 		void	initMap(char c, size_t i, size_t j);
 		void	initObjPool(char c, size_t i, size_t j);
 		void	initView();

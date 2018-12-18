@@ -1,23 +1,50 @@
 #include "Game.hpp"
 
-Game::Game(char userMap[MAP_HEIGHT][MAP_WIDTH]){
+Game::Game(string  userMap[MAP_HEIGHT]){
+	string obj("OX");
+	string mapPiece(" .*#V");
+
+	if (mapIsValid(userMap) == false)
+		throw std::invalid_argument("Map is not valid");
+	else{
+
 	initView();
 	map.reserve(MAP_HEIGHT);
 	for (size_t i = 0; i < MAP_HEIGHT; i++){
 		map[i].reserve(MAP_WIDTH);
 		for (size_t j = 0; j < MAP_WIDTH; j++){
-			if (userMap[i][j] == ' ' || userMap[i][j] == '.'
-				|| userMap[i][j] == '#' || userMap[i][j] == 'V')
-				initMap(userMap[i][j], i, j);
-			else if (userMap[i][j] == 'O' || userMap[i][j] == 'X'){
+			if (obj.find(userMap[i][j]) != string::npos){
 				initObjPool(userMap[i][j], i, j);
 				initMap(' ', i, j);
-			}
+			}else if (mapPiece.find(userMap[i][j]) != string::npos) 
+				initMap(userMap[i][j], i, j);
 		}
 	}
+	}
+
 }
+bool	Game::mapIsValid(string  userMap[MAP_HEIGHT]){
+	size_t countPacman = 0;
+	regex pacman("O");
+	regex exitGame("V");
+	regex valid("[#V*. OX]*");
+
+	for (size_t i = 0; i < MAP_HEIGHT; i++){
+		if ((userMap[i].size() != MAP_WIDTH - 1)
+			|| (!regex_match(userMap[i], valid))
+			|| (regex_search(userMap[i], exitGame) != false
+				&& (i > 0 && i < MAP_WIDTH - 1)))
+				return false;
+		if (regex_search(userMap[i], pacman) == true){
+			countPacman++;
+			if (countPacman > 1)
+				return false;
+		}
+	}
+	return true;
+}
+
 void	Game::initView(){
-	system("printf '\e[8;65;35t'");
 	setlocale(LC_ALL, "");
 	initscr();
 	start_color();
@@ -25,8 +52,8 @@ void	Game::initView(){
 	cbreak();
 	timeout(0);
 	curs_set(0);
-	wMap = newwin(MAP_HEIGHT + 2, MAP_WIDTH + 4, 1, 1);
-	wScore = newwin(3, MAP_WIDTH + 4, MAP_HEIGHT + 1, 1);
+	wMap = newwin(MAP_HEIGHT + 2, MAP_WIDTH + 2, 1, 1);
+	wScore = newwin(3, MAP_WIDTH + 2, MAP_HEIGHT + 1, 1);
 	box(wScore, 0, 0);
 	wrefresh(wMap);
 	wrefresh(wScore);
@@ -38,29 +65,18 @@ void	Game::initView(){
 
 }
 Game::~Game(){
+	for (size_t i = 0; i < objPool.size(); i++)
+		delete objPool.at(i);
 	delwin(wMap);
 	delwin(wScore);
 	endwin();
 }
 
 void	Game::initMap(char c, size_t i, size_t j){
-	switch(c){
-		case ' ':
-			map[i][j] = make_pair(' ', COLOR_ROAD);
-		break ;
-		case '.':
-			map[i][j] = make_pair('.', COLOR_ROAD);
-		break ;
-		case '#':
-			map[i][j] = make_pair(' ', COLOR_BORDER);
-		break ;
-		case 'V':
-			map[i][j] = make_pair('V', COLOR_ROAD);
-		break ;
-		default:
-			map[i][j] = make_pair(' ', COLOR_ROAD);
-	}
-
+	if (c == '#')
+		map[i][j] = make_pair(' ', COLOR_BORDER);
+	else
+		map[i][j] = make_pair(c, COLOR_ROAD);
 }
 void	Game::initObjPool(char c, size_t i, size_t j){
 	if (c == 'O')

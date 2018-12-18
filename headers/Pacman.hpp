@@ -10,7 +10,7 @@ class Pacman : public AGameObj{
 		Pacman(int const x, int const y);
 		Pacman(Pacman const & other);
 		Pacman & operator = (Pacman const & other);
-		~Pacman();
+		virtual ~Pacman();
 		size_t	&getScore();
 		void	setScore(size_t const & score);
 		void	livesReduction();
