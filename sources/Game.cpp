@@ -1,25 +1,24 @@
 #include "Game.hpp"
 
-Game::Game(string  userMap[MAP_HEIGHT]){
+Game::Game(string  (&userMap)[MAP_HEIGHT]){
 	string obj("OX");
 	string mapPiece(" .*#V");
 
 	if (mapIsValid(userMap) == false)
 		throw std::invalid_argument("Map is not valid");
 	else{
-
-	initView();
-	map.reserve(MAP_HEIGHT);
-	for (size_t i = 0; i < MAP_HEIGHT; i++){
-		map[i].reserve(MAP_WIDTH);
-		for (size_t j = 0; j < MAP_WIDTH; j++){
-			if (obj.find(userMap[i][j]) != string::npos){
-				initObjPool(userMap[i][j], i, j);
-				initMap(' ', i, j);
-			}else if (mapPiece.find(userMap[i][j]) != string::npos) 
-				initMap(userMap[i][j], i, j);
+		initView();
+		map.reserve(MAP_HEIGHT);
+		for (size_t i = 0; i < MAP_HEIGHT; i++){
+			map[i].reserve(MAP_WIDTH);
+			for (size_t j = 0; j < MAP_WIDTH; j++){
+				if (obj.find(userMap[i][j]) != string::npos){
+					initObjPool(userMap[i][j], i, j);
+					initMap(' ', i, j);
+				}else if (mapPiece.find(userMap[i][j]) != string::npos) 
+					initMap(userMap[i][j], i, j);
+			}
 		}
-	}
 	}
 
 }

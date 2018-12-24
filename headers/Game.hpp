@@ -5,7 +5,7 @@
 #include "Enemy.hpp"
 class Game{
 	public:
-		Game(string userMap[MAP_HEIGHT]);
+		Game(string (&userMap)[MAP_HEIGHT]);
 		~Game();
 		void	gameCycle();
 		WINDOW	*wMap;
