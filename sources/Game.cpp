@@ -149,6 +149,9 @@ void	Game::victory() const{
 }
 
 void	Game::moveObjects(){
-	for (size_t i = 0; i < objPool.size(); i++)
+	for (size_t i = 0; i < objPool.size(); i++){
 		objPool[i]->move(map, wMap, objPool);
+		if (objPool[0]->getStatus() != ALIVE)
+			break ;
+	}
 }
